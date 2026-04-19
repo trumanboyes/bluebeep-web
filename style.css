@@ -271,7 +271,9 @@ html, body {
   margin-bottom: 5px;
   line-height: 1.5;
 }
-#info-content .warn { color: var(--amber); }
+#info-content .warn    { color: var(--amber); }
+#info-content .credit  { color: #7fff7f; font-style: italic; }
+#info-content .unlicense { color: var(--dim); font-size: 9px; }
 
 /* ── Status bar ── */
 #status-bar {
