@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlueBEEP v2.1 — Blue Box Simulator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="crt">
+    <div id="scanlines"></div>
+    <div id="screen">
+
+      <!-- Boot sequence -->
+      <div id="boot-screen">
+        <pre id="boot-text"></pre>
+      </div>
+
+      <!-- Main app -->
+      <div id="main-screen" class="hidden">
+        <div id="title-bar">
+          <span class="title-left">╔══════════════════════════════════════════════════════════════╗</span>
+          <span class="title-mid">║  BlueBEEP v2.1  ─  Blue Box Simulator  ─  Educational Only  ║</span>
+          <span class="title-right">╚══════════════════════════════════════════════════════════════╝</span>
+        </div>
+
+        <div id="layout">
+          <!-- Left panel: controls -->
+          <div id="left-panel">
+
+            <div class="panel-box">
+              <div class="panel-title">[ TRUNK SEIZURE ]</div>
+              <div id="seizure-section">
+                <div class="freq-display">
+                  <span class="label">Freq:</span>
+                  <span id="seizure-freq" class="value">2600 Hz</span>
+                  <span class="label">Level:</span>
+                  <span id="seizure-level" class="value">─── OFF</span>
+                </div>
+                <button id="btn-2600" class="big-btn" data-tone="seizure">
+                  ▶ SEND 2600 Hz TONE
+                </button>
+                <div class="hint">Hold to seize trunk line (simulated)</div>
+              </div>
+            </div>
+
+            <div class="panel-box">
+              <div class="panel-title">[ MF DIALER — SS5 SIGNALING ]</div>
+              <div id="mf-pad">
+                <div class="pad-row">
+                  <button class="mf-btn" data-mf="KP">KP</button>
+                  <button class="mf-btn" data-mf="KP2">KP2</button>
+                  <button class="mf-btn" data-mf="ST">ST</button>
+                  <button class="mf-btn" data-mf="STP">ST'</button>
+                </div>
+                <div class="pad-row">
+                  <button class="mf-btn digit" data-mf="1">1</button>
+                  <button class="mf-btn digit" data-mf="2">2</button>
+                  <button class="mf-btn digit" data-mf="3">3</button>
+                </div>
+                <div class="pad-row">
+                  <button class="mf-btn digit" data-mf="4">4</button>
+                  <button class="mf-btn digit" data-mf="5">5</button>
+                  <button class="mf-btn digit" data-mf="6">6</button>
+                </div>
+                <div class="pad-row">
+                  <button class="mf-btn digit" data-mf="7">7</button>
+                  <button class="mf-btn digit" data-mf="8">8</button>
+                  <button class="mf-btn digit" data-mf="9">9</button>
+                </div>
+                <div class="pad-row">
+                  <button class="mf-btn digit" data-mf="0">0</button>
+                  <button class="mf-btn" data-mf="11">C11</button>
+                  <button class="mf-btn" data-mf="12">C12</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-box">
+              <div class="panel-title">[ DTMF REFERENCE ]</div>
+              <div id="dtmf-pad">
+                <div class="pad-row">
+                  <button class="dtmf-btn" data-dtmf="1">1</button>
+                  <button class="dtmf-btn" data-dtmf="2">2</button>
+                  <button class="dtmf-btn" data-dtmf="3">3</button>
+                  <button class="dtmf-btn" data-dtmf="A">A</button>
+                </div>
+                <div class="pad-row">
+                  <button class="dtmf-btn" data-dtmf="4">4</button>
+                  <button class="dtmf-btn" data-dtmf="5">5</button>
+                  <button class="dtmf-btn" data-dtmf="6">6</button>
+                  <button class="dtmf-btn" data-dtmf="B">B</button>
+                </div>
+                <div class="pad-row">
+                  <button class="dtmf-btn" data-dtmf="7">7</button>
+                  <button class="dtmf-btn" data-dtmf="8">8</button>
+                  <button class="dtmf-btn" data-dtmf="9">9</button>
+                  <button class="dtmf-btn" data-dtmf="C">C</button>
+                </div>
+                <div class="pad-row">
+                  <button class="dtmf-btn" data-dtmf="*">*</button>
+                  <button class="dtmf-btn" data-dtmf="0">0</button>
+                  <button class="dtmf-btn" data-dtmf="#">#</button>
+                  <button class="dtmf-btn" data-dtmf="D">D</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right panel: info + oscilloscope -->
+          <div id="right-panel">
+
+            <div class="panel-box" id="scope-box">
+              <div class="panel-title">[ OSCILLOSCOPE ]</div>
+              <canvas id="scope" width="380" height="120"></canvas>
+            </div>
+
+            <div class="panel-box" id="freq-box">
+              <div class="panel-title">[ FREQUENCY MONITOR ]</div>
+              <div id="freq-monitor">
+                <div class="freq-row">
+                  <span class="flabel">ACTIVE TONES:</span>
+                  <span id="active-tones" class="fvalue">─ NONE ─</span>
+                </div>
+                <div class="freq-row">
+                  <span class="flabel">SIGNAL TYPE:</span>
+                  <span id="signal-type" class="fvalue">─ IDLE ─</span>
+                </div>
+                <div class="freq-row">
+                  <span class="flabel">DURATION:</span>
+                  <span id="signal-duration" class="fvalue">0 ms</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-box" id="log-box">
+              <div class="panel-title">[ SIGNAL LOG ]</div>
+              <div id="signal-log"></div>
+            </div>
+
+            <div class="panel-box" id="info-box">
+              <div class="panel-title">[ INFO — SS5 SYSTEM ]</div>
+              <div id="info-content">
+                <p>SS5 (CCITT Signaling System No. 5) used Multi-Frequency
+                tones to route international calls. A 2600 Hz tone placed
+                on an idle trunk caused switches to believe the line was
+                on-hook, granting control to the caller.</p>
+                <p>BlueBEEP (1993–1995) by Stefan Scheytt ("Onkel Dittmeyer")
+                was a celebrated MS-DOS implementation written in Pascal.
+                SS5 has since been fully replaced by digital signaling.</p>
+                <p class="warn">⚠ This simulator generates tones for
+                educational/historical purposes only. Modern telephone
+                networks are not affected.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div id="status-bar">
+          <span id="status-left">Ready. Click a button to generate tones.</span>
+          <span id="status-right">BlueBEEP Web — Educational Simulator — 2026</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="audio.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
