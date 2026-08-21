@@ -3,33 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Educational web tribute to BlueBEEP: an SS5 / MF and DTMF tone simulator with a retro CRT interface.">
+  <meta name="theme-color" content="#000d00">
   <title>BlueBEEP v2.1 — Blue Box Simulator</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="crt">
-    <div id="scanlines"></div>
+    <div id="scanlines" aria-hidden="true"></div>
     <div id="screen">
 
-      <!-- Boot sequence -->
       <div id="boot-screen">
-        <pre id="boot-text"></pre>
+        <pre id="boot-text" aria-live="polite"></pre>
       </div>
 
-      <!-- Main app -->
       <div id="main-screen" class="hidden">
-        <div id="title-bar">
-          <span class="title-left">╔══════════════════════════════════════════════════════════════╗</span>
-          <span class="title-mid">║  BlueBEEP v2.1  ─  Blue Box Simulator  ─  Educational Only  ║</span>
-          <span class="title-right">╚══════════════════════════════════════════════════════════════╝</span>
-        </div>
+        <header id="title-bar">
+          <div class="title-rule" aria-hidden="true">╔══════════════════════════════════════════════════════════════╗</div>
+          <h1 class="title-mid">BlueBEEP v2.1  ─  Blue Box Simulator  ─  Educational Only</h1>
+          <div class="title-rule" aria-hidden="true">╚══════════════════════════════════════════════════════════════╝</div>
+        </header>
 
         <div id="layout">
-          <!-- Left panel: controls -->
           <div id="left-panel">
 
-            <div class="panel-box">
-              <div class="panel-title">[ TRUNK SEIZURE ]</div>
+            <section class="panel-box">
+              <h2 class="panel-title">[ TRUNK SEIZURE ]</h2>
               <div id="seizure-section">
                 <div class="freq-display">
                   <span class="label">Freq:</span>
@@ -37,87 +36,97 @@
                   <span class="label">Level:</span>
                   <span id="seizure-level" class="value">─── OFF</span>
                 </div>
-                <button id="btn-2600" class="big-btn" data-tone="seizure">
+                <button type="button" id="btn-2600" class="big-btn" aria-pressed="false">
                   ▶ SEND 2600 Hz TONE
                 </button>
-                <div class="hint">Hold to seize trunk line (simulated)</div>
+                <div class="vol-row">
+                  <label for="volume">Vol</label>
+                  <input id="volume" type="range" min="0" max="100" value="35" aria-label="Output volume">
+                  <span id="volume-value">35%</span>
+                </div>
+                <p class="hint">Toggle 2600 Hz (Space). Simulated seizure tone only.</p>
               </div>
-            </div>
+            </section>
 
-            <div class="panel-box">
-              <div class="panel-title">[ MF DIALER — SS5 SIGNALING ]</div>
-              <div id="mf-pad">
+            <section class="panel-box">
+              <h2 class="panel-title">[ MF DIALER — SS5 SIGNALING ]</h2>
+              <div id="mf-pad" role="group" aria-label="SS5 multi-frequency keys">
                 <div class="pad-row">
-                  <button class="mf-btn" data-mf="KP">KP</button>
-                  <button class="mf-btn" data-mf="KP2">KP2</button>
-                  <button class="mf-btn" data-mf="ST">ST</button>
-                  <button class="mf-btn" data-mf="STP">ST'</button>
+                  <button type="button" class="mf-btn" data-mf="KP" title="Key Pulse — K">KP</button>
+                  <button type="button" class="mf-btn" data-mf="KP2" title="Key Pulse 2 — L">KP2</button>
+                  <button type="button" class="mf-btn" data-mf="ST" title="Start — T">ST</button>
+                  <button type="button" class="mf-btn" data-mf="STP" title="ST prime — Y">ST'</button>
                 </div>
                 <div class="pad-row">
-                  <button class="mf-btn digit" data-mf="1">1</button>
-                  <button class="mf-btn digit" data-mf="2">2</button>
-                  <button class="mf-btn digit" data-mf="3">3</button>
+                  <button type="button" class="mf-btn digit" data-mf="1">1</button>
+                  <button type="button" class="mf-btn digit" data-mf="2">2</button>
+                  <button type="button" class="mf-btn digit" data-mf="3">3</button>
                 </div>
                 <div class="pad-row">
-                  <button class="mf-btn digit" data-mf="4">4</button>
-                  <button class="mf-btn digit" data-mf="5">5</button>
-                  <button class="mf-btn digit" data-mf="6">6</button>
+                  <button type="button" class="mf-btn digit" data-mf="4">4</button>
+                  <button type="button" class="mf-btn digit" data-mf="5">5</button>
+                  <button type="button" class="mf-btn digit" data-mf="6">6</button>
                 </div>
                 <div class="pad-row">
-                  <button class="mf-btn digit" data-mf="7">7</button>
-                  <button class="mf-btn digit" data-mf="8">8</button>
-                  <button class="mf-btn digit" data-mf="9">9</button>
+                  <button type="button" class="mf-btn digit" data-mf="7">7</button>
+                  <button type="button" class="mf-btn digit" data-mf="8">8</button>
+                  <button type="button" class="mf-btn digit" data-mf="9">9</button>
                 </div>
                 <div class="pad-row">
-                  <button class="mf-btn digit" data-mf="0">0</button>
-                  <button class="mf-btn" data-mf="11">C11</button>
-                  <button class="mf-btn" data-mf="12">C12</button>
+                  <button type="button" class="mf-btn digit" data-mf="0">0</button>
+                  <button type="button" class="mf-btn" data-mf="11" title="Code 11 — U">C11</button>
+                  <button type="button" class="mf-btn" data-mf="12" title="Code 12 — I">C12</button>
                 </div>
               </div>
-            </div>
+              <div class="seq-row">
+                <input id="mf-sequence" type="text" spellcheck="false" autocomplete="off"
+                       placeholder="KP 011 ST" aria-label="MF pulse sequence">
+                <button type="button" id="btn-pulse">PULSE</button>
+              </div>
+            </section>
 
-            <div class="panel-box">
-              <div class="panel-title">[ DTMF REFERENCE ]</div>
-              <div id="dtmf-pad">
+            <section class="panel-box">
+              <h2 class="panel-title">[ DTMF REFERENCE ]</h2>
+              <div id="dtmf-pad" role="group" aria-label="DTMF keypad">
                 <div class="pad-row">
-                  <button class="dtmf-btn" data-dtmf="1">1</button>
-                  <button class="dtmf-btn" data-dtmf="2">2</button>
-                  <button class="dtmf-btn" data-dtmf="3">3</button>
-                  <button class="dtmf-btn" data-dtmf="A">A</button>
+                  <button type="button" class="dtmf-btn" data-dtmf="1">1</button>
+                  <button type="button" class="dtmf-btn" data-dtmf="2">2</button>
+                  <button type="button" class="dtmf-btn" data-dtmf="3">3</button>
+                  <button type="button" class="dtmf-btn" data-dtmf="A">A</button>
                 </div>
                 <div class="pad-row">
-                  <button class="dtmf-btn" data-dtmf="4">4</button>
-                  <button class="dtmf-btn" data-dtmf="5">5</button>
-                  <button class="dtmf-btn" data-dtmf="6">6</button>
-                  <button class="dtmf-btn" data-dtmf="B">B</button>
+                  <button type="button" class="dtmf-btn" data-dtmf="4">4</button>
+                  <button type="button" class="dtmf-btn" data-dtmf="5">5</button>
+                  <button type="button" class="dtmf-btn" data-dtmf="6">6</button>
+                  <button type="button" class="dtmf-btn" data-dtmf="B">B</button>
                 </div>
                 <div class="pad-row">
-                  <button class="dtmf-btn" data-dtmf="7">7</button>
-                  <button class="dtmf-btn" data-dtmf="8">8</button>
-                  <button class="dtmf-btn" data-dtmf="9">9</button>
-                  <button class="dtmf-btn" data-dtmf="C">C</button>
+                  <button type="button" class="dtmf-btn" data-dtmf="7">7</button>
+                  <button type="button" class="dtmf-btn" data-dtmf="8">8</button>
+                  <button type="button" class="dtmf-btn" data-dtmf="9">9</button>
+                  <button type="button" class="dtmf-btn" data-dtmf="C">C</button>
                 </div>
                 <div class="pad-row">
-                  <button class="dtmf-btn" data-dtmf="*">*</button>
-                  <button class="dtmf-btn" data-dtmf="0">0</button>
-                  <button class="dtmf-btn" data-dtmf="#">#</button>
-                  <button class="dtmf-btn" data-dtmf="D">D</button>
+                  <button type="button" class="dtmf-btn" data-dtmf="*">*</button>
+                  <button type="button" class="dtmf-btn" data-dtmf="0">0</button>
+                  <button type="button" class="dtmf-btn" data-dtmf="#">#</button>
+                  <button type="button" class="dtmf-btn" data-dtmf="D">D</button>
                 </div>
               </div>
-            </div>
+              <p class="hint">Hold a DTMF key to sustain the pair.</p>
+            </section>
 
           </div>
 
-          <!-- Right panel: info + oscilloscope -->
           <div id="right-panel">
 
-            <div class="panel-box" id="scope-box">
-              <div class="panel-title">[ OSCILLOSCOPE ]</div>
-              <canvas id="scope" width="380" height="120"></canvas>
-            </div>
+            <section class="panel-box" id="scope-box">
+              <h2 class="panel-title">[ OSCILLOSCOPE ]</h2>
+              <canvas id="scope" width="380" height="120" aria-hidden="true"></canvas>
+            </section>
 
-            <div class="panel-box" id="freq-box">
-              <div class="panel-title">[ FREQUENCY MONITOR ]</div>
+            <section class="panel-box" id="freq-box">
+              <h2 class="panel-title">[ FREQUENCY MONITOR ]</h2>
               <div id="freq-monitor">
                 <div class="freq-row">
                   <span class="flabel">ACTIVE TONES:</span>
@@ -132,15 +141,18 @@
                   <span id="signal-duration" class="fvalue">0 ms</span>
                 </div>
               </div>
-            </div>
+            </section>
 
-            <div class="panel-box" id="log-box">
-              <div class="panel-title">[ SIGNAL LOG ]</div>
-              <div id="signal-log"></div>
-            </div>
+            <section class="panel-box" id="log-box">
+              <div class="log-head">
+                <h2 class="panel-title">[ SIGNAL LOG ]</h2>
+                <button type="button" id="btn-clear-log">CLEAR</button>
+              </div>
+              <div id="signal-log" role="log" aria-live="polite" aria-relevant="additions"></div>
+            </section>
 
-            <div class="panel-box" id="info-box">
-              <div class="panel-title">[ INFO — SS5 SYSTEM ]</div>
+            <section class="panel-box" id="info-box">
+              <h2 class="panel-title">[ INFO — SS5 SYSTEM ]</h2>
               <div id="info-content">
                 <p>SS5 (CCITT Signaling System No. 5) used Multi-Frequency
                 tones to route international calls. A 2600 Hz tone placed
@@ -160,21 +172,23 @@
                 <p class="unlicense">This web reimplementation is released
                 to the public domain under The Unlicense — no rights reserved.</p>
               </div>
-            </div>
+            </section>
 
           </div>
         </div>
 
-        <div id="status-bar">
-          <span id="status-left">Ready. Click a button to generate tones.</span>
-          <span id="status-right">Tribute to Stefan Scheytt's BlueBEEP (1993–1995) — Public Domain</span>
-        </div>
+        <footer id="status-bar">
+          <span id="status-left" aria-live="polite">Ready. Click a button to generate tones.</span>
+          <span class="status-tools">
+            <button type="button" id="key-mode" aria-pressed="false" title="Toggle keyboard mapping">KEYS: MF</button>
+            <span id="status-right">Tribute to Stefan Scheytt's BlueBEEP (1993–1995) — Public Domain</span>
+          </span>
+        </footer>
       </div>
 
     </div>
   </div>
 
-  <script src="audio.js"></script>
-  <script src="app.js"></script>
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>

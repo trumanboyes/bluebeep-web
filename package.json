@@ -1,0 +1,9 @@
+{
+  "name": "bluebeep-web",
+  "private": true,
+  "type": "module",
+  "description": "Educational web tribute to BlueBEEP (SS5 / MF and DTMF tone simulator).",
+  "scripts": {
+    "test": "node --test tests/tones.test.js"
+  }
+}
