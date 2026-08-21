@@ -27,7 +27,6 @@ const els = {
   signalDuration: $('signal-duration'),
   signalLog: $('signal-log'),
   statusLeft: $('status-left'),
-  statusRight: $('status-right'),
   scope: $('scope'),
   mfSequence: $('mf-sequence'),
   btnPulse: $('btn-pulse'),
